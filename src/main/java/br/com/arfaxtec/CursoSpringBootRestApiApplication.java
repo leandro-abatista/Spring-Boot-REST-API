@@ -10,9 +10,9 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
-@SpringBootApplication
+@SpringBootApplication//identifica como uma aplicação spring
 @EntityScan(basePackages = {"br.com.arfaxtec.apirest.model"})//ler todas as classes desse pacote
-@ComponentScan(basePackages = {"br.com.*"})
+@ComponentScan(basePackages = {"br.com.arfaxtec.apirest.*"})
 @EnableJpaRepositories(basePackages = {"br.com.arfaxtec.apirest.repository"})
 @EnableTransactionManagement
 @EnableWebMvc
