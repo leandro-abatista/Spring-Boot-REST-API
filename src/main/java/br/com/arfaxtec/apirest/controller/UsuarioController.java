@@ -111,5 +111,19 @@ public class UsuarioController {
 		return new ResponseEntity(usuario.get(), HttpStatus.OK);
 	} 
 	
+	/**
+	 * Passando dois parâmetros
+	 * @return
+	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@GetMapping(value = "/{id}/codigoVenda/{idvenda}", produces = "application/json")
+	public ResponseEntity relatorio(@PathVariable(value = "id") Long id,
+									@PathVariable(value = "idvenda") Long idvenda) {
+		
+		Optional<Usuario> usuario = usuarioRepository.findById(id);
+		
+		return new ResponseEntity(usuario.get(), HttpStatus.OK);
+	} 
+	
 	
 }
