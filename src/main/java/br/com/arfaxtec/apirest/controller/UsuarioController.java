@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -137,6 +138,25 @@ public class UsuarioController {
 		
 		Usuario u = usuarioRepository.save(usuario);
 		return new ResponseEntity(u, HttpStatus.OK);
+		
+	}
+	
+	@PutMapping(value = "/{id}", produces = "application/json")
+	public ResponseEntity<Usuario> updateUsuario(@PathVariable(value = "id") Long id, @RequestBody Usuario usuario){
+		
+		return usuarioRepository.findById(id).map(
+				record -> {
+					record.setId(usuario.getId());
+					record.setNome(usuario.getNome());
+					record.setEmail(usuario.getEmail());
+					record.setCargo(usuario.getCargo());
+					record.setLogin(usuario.getLogin());
+					record.setSenha(usuario.getSenha());
+					
+					Usuario user = usuarioRepository.save(record);
+					
+					return ResponseEntity.ok().body(user);
+				}).orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
 		
 	}
 }
