@@ -2,19 +2,26 @@ package br.com.arfaxtec.apirest.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import br.com.arfaxtec.apirest.model.Usuario;
+import br.com.arfaxtec.apirest.repository.UsuarioRepository;
 
 @Controller
 @RequestMapping(value = "/system")
 public class UsuarioController {
+	
+	@Autowired//injeção de dependência do spring
+	private UsuarioRepository usuarioRepository;
 
 	/**
 	 * Recebendo um parâmetro e o valor padrão
@@ -52,9 +59,13 @@ public class UsuarioController {
 		return new ResponseEntity<Usuario>(usuario, HttpStatus.OK);
 	} 
 	
+	/**
+	 * Lista todos os usuários
+	 * @return
+	 */
 	@SuppressWarnings("rawtypes")
 	@GetMapping(value = "/listuser", produces = "application/json")
-	public ResponseEntity retornaListaUsuarios() {
+	public ResponseEntity retornaListaUsers() {
 		
 		Usuario usuario = new Usuario();
 		usuario.setId(1L);
@@ -72,6 +83,32 @@ public class UsuarioController {
 		lista.add(usuario2);
 		
 		return new ResponseEntity(lista, HttpStatus.OK);
+	} 
+	
+	/**
+	 * Lista todos os usuários
+	 * @return
+	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@GetMapping(value = "/usuarios", produces = "application/json")
+	public ResponseEntity retornaLista() {
+		
+		Iterable<Usuario> lista = usuarioRepository.findAll();
+		
+		return new ResponseEntity(lista, HttpStatus.OK);
+	} 
+	
+	/**
+	 * Consultado usuário por id
+	 * @return
+	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@GetMapping(value = "/{id}", produces = "application/json")
+	public ResponseEntity retornaListaUsuarios(@PathVariable(value = "id") Long id) {
+		
+		Optional<Usuario> usuario = usuarioRepository.findById(id);
+		
+		return new ResponseEntity(usuario.get(), HttpStatus.OK);
 	} 
 	
 	
