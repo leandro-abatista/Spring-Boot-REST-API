@@ -1,12 +1,16 @@
 package br.com.arfaxtec.apirest.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -33,7 +37,12 @@ public class Usuario implements Serializable {
 
 	@Column(length = 100)
 	private String senha;
+	
+	//Um usuário tem muitos telefones
+	@OneToMany(mappedBy = "usuario", orphanRemoval = true, cascade = CascadeType.ALL)
+	private List<Telefone> telefones = new ArrayList<>();
 
+	/*==========================================Getters e Setters==============================================================================*/
 	public Long getId() {
 		return id;
 	}
