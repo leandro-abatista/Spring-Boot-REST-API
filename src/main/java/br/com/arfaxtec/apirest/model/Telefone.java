@@ -30,7 +30,7 @@ public class Telefone implements Serializable {
 
 	// Muitos telefones para um usuário
 	@JsonIgnore
-	@ManyToOne
+	@ManyToOne(optional = false)
 	@ForeignKey(name = "usuario_id")
 	private Usuario usuario;
 

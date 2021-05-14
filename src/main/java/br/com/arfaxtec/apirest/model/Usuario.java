@@ -90,6 +90,14 @@ public class Usuario implements Serializable {
 	public void setCargo(String cargo) {
 		this.cargo = cargo;
 	}
+	
+	public List<Telefone> getTelefones() {
+		return telefones;
+	}
+
+	public void setTelefones(List<Telefone> telefones) {
+		this.telefones = telefones;
+	}
 
 	@Override
 	public int hashCode() {

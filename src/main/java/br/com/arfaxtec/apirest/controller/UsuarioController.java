@@ -17,7 +17,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import br.com.arfaxtec.apirest.model.Telefone;
 import br.com.arfaxtec.apirest.model.Usuario;
+import br.com.arfaxtec.apirest.repository.TelefoneRepository;
 import br.com.arfaxtec.apirest.repository.UsuarioRepository;
 
 @Controller
@@ -26,6 +28,9 @@ public class UsuarioController {
 	
 	@Autowired//injeção de dependência do spring
 	private UsuarioRepository usuarioRepository;
+	
+	@Autowired//injeção de dependência do spring
+	private TelefoneRepository telefonerepository;
 
 	/**
 	 * Recebendo um parâmetro e o valor padrão
@@ -137,6 +142,9 @@ public class UsuarioController {
 	@PostMapping(value = "/", produces = "application/json")
 	public ResponseEntity<Usuario> addUsuario(@RequestBody Usuario usuario) {
 		
+		for (int posicao = 0; posicao < usuario.getTelefones().size(); posicao++) {
+			usuario.getTelefones().get(posicao).setUsuario(usuario);
+		}
 		Usuario u = usuarioRepository.save(usuario);
 		return new ResponseEntity(u, HttpStatus.OK);
 		
@@ -173,5 +181,13 @@ public class UsuarioController {
 		usuarioRepository.deleteById(id);
 		
 		return ResponseEntity.ok().build();
+	}
+	
+	@PostMapping(value = "/addPhone/", produces = "application/json")
+	public ResponseEntity<Telefone> addTelefone(@RequestBody Telefone telefone) {
+		
+		Telefone t = telefonerepository.save(telefone);
+		
+		return new ResponseEntity(t, HttpStatus.OK);
 	}
 }
